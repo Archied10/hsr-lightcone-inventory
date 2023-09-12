@@ -2,7 +2,12 @@ from django.shortcuts import render
 
 # Create your views here.
 def main(request):
-    return render(request, "main.html")
+    context = {
+        'name': 'Mika Ahmad Al Husseini',
+        'npm': 2206826476,
+        'kelas': 'PBP-A',
+    }
+    return render(request, "main.html", context)
 
 def lightcones(request):
     context = {
