@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Light Cone Inventory</title>
-</head>
-<body>
-    <h1>Light Cone Inventory</h1>
-    <h2>Dibuat Oleh: </h2>
-    <h2>Nama : {{ name }}</h2>
-    <h2>NPM  : {{ npm }}</h2>
-    <h2>Kelas: {{ kelas }}</h2>
-    <h3>Check out my <a href="lightcones/">Light Cones</a></h3>
-</body>
-</html>
+{% block content %}
+  <h1>Light Cone Inventory</h1>
+  <h2>Dibuat Oleh: </h2>
+  <h2>Nama : {{ name }}</h2>
+  <h2>NPM  : {{ npm }}</h2>
+  <h2>Kelas: {{ kelas }}</h2>
+  <h3>Check out my <a href="lightcones/">Light Cones</a></h3>
+{% endblock content %}

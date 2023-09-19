@@ -1,26 +1,38 @@
-<h1>Light Cone Inventory</h1>
-<table border='1'>
-    <tr>
-      <th>Name</th>
-      <th>Amount</th>
-      <th>Description</th>
-      <th>Rarity</th>
-      <th>Path</th>
-      <th>Base ATK</th>
-      <th>Base HP</th>
-      <th>Base DEF</th>
-    </tr>
-    <tr>
-    <td style="word-wrap:break-all; max-width:100px;">{{ name }}</td>
-    <td>{{ amount }}</td>
-    <td style="word-wrap:break-all; max-width:500px;">{{ description }}</td>
-    <td>{{ rarity }} Stars</td>
-    <td>{{ lc_path }}</td>
-    <td>{{ base_atk }}</td>
-    <td>{{ base_hp }}</td>
-    <td>{{ base_def }}</td>
-    </tr>
+{% block content %}
+  <h1>Light Cone Inventory</h1>
+  <h2>You stored {{ jumlah_item }} Light Cones in this app</h2>
+  <a href="{% url 'create_item' %}">
+    <button>
+        Add New Light Cones
+    </button>
+  </a>
+  <br><br>
+  <a href="/">Back</a> <br><br>
+  <table border='1' style="text-align:center">
+      <tr>
+        <th>Name</th>
+        <th>Rarity</th>
+        <th>Path</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Base ATK</th>
+        <th>Base HP</th>
+        <th>Base DEF</th>
+      </tr>
+
+      {% for item in items %}
+        <tr>
+          <td style="word-wrap:break-all; max-width:100px;">{{ item.name }}</td>
+          <td>{{ item.rarity }} Stars</td>
+          <td>{{ item.lc_path }}</td>
+          <td>{{ item.amount }}</td>
+          <td style="word-wrap:break-all; max-width:500px;">{{ item.description }}</td>
+          <td>{{ item.base_atk }}</td>
+          <td>{{ item.base_hp }}</td>
+          <td>{{ item.base_def }}</td>
+        </tr>
+      {% endfor %}
   </table>
-  <a href="/">Back</a> <br>
-  {% load static %} 
+  {% load static %}
   <img src="{% static 'Pom-Pom_Sticker_06.webp' %}" alt="Pom Pom Belajar">
+{% endblock content %}

@@ -6,7 +6,7 @@ class Item(models.Model):
     amount = models.IntegerField()
     description = models.TextField()
     rarity = models.IntegerField()
-    lc_path = models.CharField(max_length=255, default="-")
+    lc_path = models.CharField(max_length=255, null=True)
     base_atk = models.IntegerField()
     base_hp = models.IntegerField()
     base_def = models.IntegerField()
