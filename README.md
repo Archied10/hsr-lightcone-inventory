@@ -2,7 +2,7 @@
 
 Ini merupakan solusi saya dari [Tugas PBP Ganjil 23/24](https://pbp-fasilkom-ui.github.io/ganjil-2024/assignments). Solusi ini dibuat oleh Mika Ahmad Al Husseini.
 
-## Table of contents
+## Table of Contents
 
 - [Overview](#overview)
   - [Screenshots](#screenshots)
@@ -18,6 +18,12 @@ Ini merupakan solusi saya dari [Tugas PBP Ganjil 23/24](https://pbp-fasilkom-ui.
   - [JSON pada Aplikasi Web Modern](#json-pada-aplikasi-web-modern)
   - [Langkah Pengerjaan III](#langkah-pengerjaan-iii)
   - [Postman Screenshots](#postman-screenshots)
+- [Questions and Answers Tugas 4](#questions-and-answers-tugas-4)
+  - [UserCreationForm](#usercreationform)
+  - [Autentikasi dan Otorisasi](#autentikasi-dan-otorisasi)
+  - [Cookies dalam Aplikasi Web](#cookies-dalam-aplikasi-web)
+  - [Cookies: Apakah Aman?](#cookies-apakah-aman)
+  - [Langkah Pengerjaan IV](#langkah-pengerjaan-iv)
 - [Useful resources](#useful-resources)
 - [Author](#author)
 
@@ -26,12 +32,12 @@ Ini merupakan solusi saya dari [Tugas PBP Ganjil 23/24](https://pbp-fasilkom-ui.
 ### Screenshots
 
 ![](./images/Light-Cone-Inventory.png)
-![](./images/app-screenshot.png)
+![](./images/app-screenshot-3.png)
 
 ### Links
 
 - GitHub URL: [GitHub](https://github.com/Archied10/hsr-lightcone-inventory)
-- Adaptable App URL: [App](https://lightcone-archied10.adaptable.app/)
+- Adaptable App URL: [App](https://lightcone-archied10.adaptable.app/) *(No longer adaptable)*
 
 ## Questions and Answers Tugas 2
 
@@ -127,6 +133,44 @@ Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-b
 
 - JSON by ID
 ![](./images/json-by-id.png)
+
+## Questions and Answers Tugas 4
+
+### UserCreationForm
+Apa itu Django UserCreationForm, dan jelaskan apa kelebihan dan kekurangannya?
+- Django mempunyai sistem autentikasi bawaan yang bertugas untuk memvalidasi password dan permission. Tentunya perlu suatu fitur untuk membuat user yang dapat menggunakan aplikasi web. `UserCreationForm` merupakan fitur bawaan dari class `ModelForm` pada Django dan digunakan untuk membuat form pengguna baru. `UserCreationForm` diimpor dari `django.contrib.auth.forms`. `UserCreationForm` dapat dengan otomatis membuat form untuk membuat user dengan tiga field, yaitu nama, password, dan konfirmasi password. Akan tetapi, `UserCreationForm` hanya dapat menyediakan ketiga field tersebut. Oleh karena itu, ketika kita ingin mengirim verifikasi email untuk memverifikasi user, kita tidak bisa melakukannya karena `UserCreationForm` tidak menyediakan field email. Untuk mengatasi hal tersebut, kita dapat memodifikasi `UserCreationForm` agar dapat menambahkan field-field yang tidak disediakan.
+
+Referensi: [Working with Forms in Django](https://www.section.io/engineering-education/working-with-forms-in-django/) dan [Django UserCreationForm](https://www.javatpoint.com/django-usercreationform)
+
+### Autentikasi dan Otorisasi
+Apa perbedaan antara autentikasi dan otorisasi dalam konteks Django, dan mengapa keduanya penting?
+- Sistem autentikasi pada Django mengatur autentikasi dan otorisasi. Autentikasi memverifikasi user yang ingin login ke dalam aplikasi web dan otorisasi akan menentukan apa yang dapat dilakukan oleh user yang telah diautentikasi. Autentikasi pada Django penting karena dapat menyimpan user dan menyimpan password user dalam bentuk hash. Autentikasi dapat memverifikasi username dan password dan mengembalikan objek `User` jika username dan passwordnya valid pada backend autentikasi. Otorisasi pada Django penting karena dapat menetapkan permission pada user. Contohnya, mengakses untuk melihat suatu objek diperlukan permission `view` atau `change`, melihat form `add` dan menambahkan objek diperlukan permission `add`, melihat form `change` dan mengubah objek diperlukan permission `change`, dan menghapus objek diperlukan permission `delete`.
+
+Referensi: [User authentication in Django](https://docs.djangoproject.com/en/4.2/topics/auth/) dan [Using the Django authentication system](https://docs.djangoproject.com/en/4.2/topics/auth/default/#topic-authorization)
+
+### Cookies dalam Aplikasi Web
+Apa itu cookies dalam konteks aplikasi web, dan bagaimana Django menggunakan cookies untuk mengelola data sesi pengguna?
+- Cookies merupakan berkas teks dengan ukuran data yang kecil yang dapat mengandung hal-hal seperti username dan password yang digunakan untuk mengidentifikasi komputer ketika menggunakan suatu jaringan. Terdapat cookies khusus untuk mengidentifikasi user spesifik agar dapat meningkatkan pengalaman web browsing. Data yang disimpan pada cookies dibuat oleh server ketika komputer terkoneksi ke jaringan. Data ini akan diberi label ID yang unik untuk komputer pengguna. Ketika cookies diberikan dari komputer ke jaringan server, server akan membaca ID dan memberikan informasi yang spesifik untuk pengguna.
+- Django menyediakan method bawaan untuk mengatur dan memperoleh cookies. Method `set_cookie()` digunakan untuk mengatur cookie dan method `get()` digunakan untuk memperoleh cookie. Dengan menggunakan `set_cookie()`, pengguna dapat mengatur nama cookie, nilai cookie, maksimal umur cookie, tanggal expire cookie, mengirim cookie hanya ketika request berupa HTTPS, JavaScript sisi client tidak dapat mengakses cookie, dan mengizinkan cookie untuk dikirim ke request pada situs yang sama. Cookie dapat dihapus menggunakan method `delete_cookie()`. Untuk mengakses seluruh cookies yang dikirimkan oleh web browser, pengguna dapat menggunakan properti `COOKIES` pada objek `HttpRequest`. Method `get()` dapat digunakan untuk mengakses dictionary pada `COOKIES`.
+
+Referensi: [What are Cookies?](https://www.kaspersky.com/resource-center/definitions/cookies), [Django Cookie](https://www.javatpoint.com/django-cookie), dan [Django Cookies](https://www.pythontutorial.net/django-tutorial/django-cookies/)
+
+### Cookies: Apakah Aman?
+Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai?
+- Pada umumnya, penggunaan cookies akan sangat aman ketika diimplementasikan dengan tepat. Akan tetapi, terdapat beberapa hal yang harus diwaspadai. Seorang kriminal dapat mencuri cookies dan menyebabkan banyak kerugian. 
+- Contohnya adalah seperti serangan Man-in-the-middle (MitM). MitM merupakan serangan dimana penyerang akan menghadang data yang dikirimkan antara client dan server. Hal ini dapat dilakukan dengan berbagai cara, seperti mengakses website yang tidak aman, meniru WIFI publik, hingga melalui malware. 
+- Contoh lainnya adalah serangan XSS, yaitu penyerang menginjeksi kode yang berbahaya pada website. Serangan ini dapat merugikan semua orang yang mengakses website tersebut. Jika suatu penyerang berhasil melakukan serangan XSS pada website maka akan memungkinkan penyerang untuk mendapatkan akses ke session cookies dan dapat mengakses website sebagai user lain. 
+- Serangan-serangan yang sudah disebutkan di atas dapat dihindari dengan cara mengizinkan HTTPS pada server, menggunakan sertifikat SSL dari otoritas yang terpercaya, dan pastikan kode program menggunakan HTTPS bukan HTTP yang tidak aman.
+
+Referensi: [Everything You Need to Know About Cookies for Web Development](https://www.freecodecamp.org/news/everything-you-need-to-know-about-cookies-for-web-development/)
+
+### Langkah Pengerjaan IV
+Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+- Pada `views.py`, saya membuat tiga fungsi, yaitu `register()`, `login_user()`, dan `logout_user()`. Fungsi `register()` mengandung fitur UserCreationForm untuk dapat membuat user yang baru. Fungsi `login_user()` akan mengautentikasi username dan password yang dimasukkan oleh user dan jika berhasil akan mengatur cookie dan menuju `show_main`. Pada fungsi `show_main()` ditambahkan `@login_required(login_url='/login')` agar hanya bisa diakses ketika user sudah login. Fungsi `logout_user()` akan menghapus cookie dan kembali ke halaman login. Masing-masing fungsi diimpor ke `urls.py` dan ditambahkan pathnya.
+- Selanjutnya, saya membuat dua akun dengan username **mika.ahmad** dan **archied10**. Pada tiap akun, saya setidaknya menambahkan tiga item yang berbeda-beda pada inventory. 
+- Pada `models.py`, saya menambahkan kode yang akan menghubungkan satu produk dengan satu user. Pada fungsi `create_item()`, saya menambahkan kode agar suatu item dapat ditandai bahwa item tersebut dimiliki oleh user yang sedang terotorisi. Pada fungsi `show_main()`, saya memfilter item agar hanya item yang dimiliki oleh user yang terotorisasi yang akan ditampilkan dan juga mengubah nama yang akan ditampilkan menjadi username dari user. Terakhir, saya menyimpan perubahan dan melakukan migrasi model.
+- Cookie yang sudah diatur pada fungsi `login_user()`, yaitu berupa last login ditampilkan pada `main.html`.
+- Terakhir, saya menambahkan kolom baru pada tabel di berkas `lightcones.html`. Kolom pertama berisikan button yang berfungsi untuk mengupdate nilai amount item (menambahkan dan mengurangkan) dan kolom kedua berfungsi untuk menghapus item. Saya membuat masing-masing satu fungsi pada `views.py` untuk tiap button, yaitu `increase_amount()`, `decrease_amount()`, dan `delete_item()`. Masing-masing fungsi diimpor ke `urls.py` dan ditambahkan pathnya. Fungsi tersebut berfungsi untuk memodifikasi nilai pada database dan ketika berhasil akan mengembalikan `HttpResponse`.
 
 ## Useful resources
 
