@@ -1,8 +1,17 @@
 {% block content %}
   <h1>Light Cone Inventory</h1>
-  <h2>Dibuat Oleh: </h2>
   <h2>Nama : {{ name }}</h2>
   <h2>NPM  : {{ npm }}</h2>
   <h2>Kelas: {{ kelas }}</h2>
-  <h3>Check out my <a href="lightcones/">Light Cones</a></h3>
+  <h5>Last login session: {{ last_login }}</h5>
+  <a href="{% url 'main:lightcones' %}">
+    <button>
+       Check Out Your Light Cones
+    </button>
+  </a> <br><br>
+  <a href="{% url 'main:logout' %}">
+    <button>
+        Logout
+    </button>
+  </a>
 {% endblock content %}
