@@ -25,7 +25,7 @@ def show_main(request):
     return render(request, "main.html", context)
 
 def lightcones(request):
-    items = Item.objects.filter(user=request.user)
+    items = Item.objects.filter(user=request.user).order_by('-rarity', 'name')
     jumlah_item = 0
 
     # Menghitung jumlah item berdasarkan amount
@@ -102,12 +102,12 @@ def logout_user(request):
 
 def increase_amount(request, item_id):
     Item.objects.filter(user=request.user).filter(pk=item_id).update(amount=F('amount')+1)
-    return HttpResponse('The amount has been increased by 1. Please go back and refresh the last page.')
+    return HttpResponseRedirect(reverse('main:lightcones'))
 
 def decrease_amount(request, item_id):
     Item.objects.filter(user=request.user).filter(pk=item_id).update(amount=F('amount')-1)
-    return HttpResponse('The amount has been decreased by 1. Please go back and refresh the last page.')
+    return HttpResponseRedirect(reverse('main:lightcones'))
 
 def delete_item(request, item_id):
     Item.objects.filter(user=request.user).filter(pk=item_id).delete()
-    return HttpResponse('The item has been deleted. Please go back and refresh the last page.')
+    return HttpResponseRedirect(reverse('main:lightcones'))

@@ -1,56 +1,54 @@
+{% extends 'base.html' %} 
+{% block meta %}
+<style>
+    div:last-child{
+        background-color: blue;
+    }
+</style>
+{% endblock meta %}
 {% block content %}
+<div class = "w-100 border rounded bg-info text-center">
   <h1>Light Cone Inventory</h1>
   <h2>You have stored {{ jumlah_item }} Light Cones in this app</h2>
   <a href="{% url 'main:create_item' %}">
-    <button>
-        Add New Light Cones
+    <button class="btn btn-success my-2 px-3">
+        Add New Light Cone
     </button>
-  </a> <br><br>
+  </a>
   <a href="{% url 'main:show_main' %}">
-    <button>
+    <button class="btn btn-secondary my-2 px-3">
         Back
     </button>
   </a> <br><br>
-  <table border='1' style="text-align:center">
-      <tr>
-        <th>Name</th>
-        <th>Rarity</th>
-        <th>Path</th>
-        <th>Amount</th>
-        <th>Description</th>
-        <th>Base ATK</th>
-        <th>Base HP</th>
-        <th>Base DEF</th>
-        <th>Update Amount</th>
-        <th style="color:red">Delete Item</th>
-      </tr>
 
-      {% for item in items %}
-        <tr>
-          <td style="word-wrap:break-all; max-width:100px;">{{ item.name }}</td>
-          <td>{{ item.rarity }} Stars</td>
-          <td>{{ item.lc_path }}</td>
-          <td>{{ item.amount }}</td>
-          <td style="word-wrap:break-all; max-width:500px;">{{ item.description }}</td>
-          <td>{{ item.base_atk }}</td>
-          <td>{{ item.base_hp }}</td>
-          <td>{{ item.base_def }}</td>
-          <td>
-            <button onclick="window.location.href='/increase_amount/{{ item.id }}/';"> 
-              + 1 
-            </button>
-            <button onclick="window.location.href='/decrease_amount/{{ item.id }}/';"> 
-              - 1 
-            </button>
-          </td>
-          <td>
-            <button onclick="window.location.href='/delete_item/{{ item.id }}/';" style="color:red"> 
-              Delete
-            </button>
-          </td>
-        </tr>
-      {% endfor %}
-  </table>
+    {% for item in items %}
+      <div class="card border-primary mb-3" style="max-width: 24%; display: inline-block; vertical-align:top;">
+        <div class="card-header"><h5 class="card-title">{{ item.name }}</h5></div>
+        <div class="card-body">
+          <h6 class="card-title">{{ item.rarity }} Stars</h6>
+          <h6 class="card-title">The {{ item.lc_path }}</h6>
+          <p class="card-text">{{ item.description }}</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Base ATK: {{ item.base_atk }}</li>
+            <li class="list-group-item">Base HP: {{ item.base_hp }}</li>
+            <li class="list-group-item">Base DEF: {{ item.base_def }}</li>
+            <li class="list-group-item">Amount: {{ item.amount }}</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <button onclick="window.location.href='/increase_amount/{{ item.id }}/';" class="btn btn-secondary my-2 px-3"> 
+            + 1 
+          </button>
+          <button onclick="window.location.href='/decrease_amount/{{ item.id }}/';" class="btn btn-secondary my-2 px-3"> 
+            - 1 
+          </button>
+          <button onclick="window.location.href='/delete_item/{{ item.id }}/';" class="btn btn-danger my-2 px-3"> 
+            Delete
+          </button>
+        </div>
+      </div>
+    {% endfor %}
   {% load static %}
   <img src="{% static 'Pom-Pom_Sticker_06.webp' %}" alt="Pom Pom Belajar">
+</div>
 {% endblock content %}

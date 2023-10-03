@@ -5,40 +5,34 @@
 {% endblock meta %}
 
 {% block content %}
+<div class = "login container-lg my-5 w-25 border rounded bg-info text-center">
 
-<div class = "login">
+    <h1 class="my-3">Welcome</h1>
+    {% load static %}
+    <img class="mb-3" src="{% static 'pompom-love.webp' %}" alt="Pom Pom Love" style="width: 100px">
 
-    <h1>Login</h1>
-
-    <form method="POST" action="">
+    <form method="POST" action="" class="text-center">
         {% csrf_token %}
-        <table>
-            <tr>
-                <td>Username: </td>
-                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
-            </tr>
-                    
-            <tr>
-                <td>Password: </td>
-                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
-            </tr>
-
-            <tr>
-                <td></td>
-                <td><input class="btn login_btn" type="submit" value="Login"></td>
-            </tr>
-        </table>
+        <div class="form-floating mb-3 mx-4">
+            <input type="text" class="form-control" name="username" id="floatingInput" placeholder="Username">
+            <label for="floatingInput">Username</label>
+        </div>
+        <div class="form-floating mx-4">
+            <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+        <input class="btn btn-secondary login_btn my-2 px-3" type="submit" value="Login">
     </form>
 
     {% if messages %}
-        <ul>
+        <ul class="text-center list-unstyled text-secondary">
             {% for message in messages %}
                 <li>{{ message }}</li>
             {% endfor %}
         </ul>
     {% endif %}     
         
-    Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a>
+    <p class="mb-3">Don't have an account yet? <a href="{% url 'main:register' %}" class="link-dark">Register Now</a></p>
 
 </div>
 

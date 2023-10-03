@@ -1,17 +1,27 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Profile</title>
+{% endblock meta %}
+
 {% block content %}
-  <h1>Light Cone Inventory</h1>
-  <h2>Nama : {{ name }}</h2>
-  <h2>NPM  : {{ npm }}</h2>
-  <h2>Kelas: {{ kelas }}</h2>
-  <h5>Last login session: {{ last_login }}</h5>
+<div class = "container-lg my-5 w-25 border rounded bg-info text-center">
+  <h1 class="my-3">Profile</h1>
+  {% load static %}
+  <img class="mb-3" src="{% static 'pompom-pd.webp' %}" alt="Pom Pom Love" style="width: 100px">
+  <p>Username : {{ name }}</p>
+  <p>NPM  : {{ npm }}</p>
+  <p>Class: {{ kelas }}</p>
+  <p>Last login session: {{ last_login }}</p>
   <a href="{% url 'main:lightcones' %}">
-    <button>
-       Check Out Your Light Cones
+    <button class="btn btn-success login_btn my-2 px-3">
+      Check Out Your Light Cones
     </button>
-  </a> <br><br>
+  </a> <br>
   <a href="{% url 'main:logout' %}">
-    <button>
+    <button class="btn btn-danger login_btn mb-3 px-3">
         Logout
     </button>
   </a>
+</div>
 {% endblock content %}
