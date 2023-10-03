@@ -1,19 +1,61 @@
 {% extends 'base.html' %} 
 
 {% block content %}
-<h1>Add New Light Cones</h1>
 
-<form method="POST">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-        <tr>
-            <td></td>
-            <td>
-                <input type="submit" value="Add Light Cone"/>
-            </td>
-        </tr>
-    </table>
-</form>
+<div class = "login container-lg my-5 w-50 border rounded bg-info text-center">
+
+    <h1 class="my-3">Add New Light Cone</h1>
+
+    <form method="POST">
+        {% load widget_tweaks %}
+        {% csrf_token %}
+        <div class="form-floating mb-3 mx-4">
+            {% render_field form.name type="text" class="form-control" id="name" placeholder="Name" %}
+            <label for="name">Name</label>
+        </div>
+        
+        <div class="form-floating mb-3 mx-4">
+            {% render_field form.amount type="number" class="form-control" id="amount" placeholder="Amount" %}
+            <label for="amount">Amount</label>
+        </div>
+        
+        <div class="form-floating mb-3 mx-4">
+            {% render_field form.description type="text" class="form-control" id="description" placeholder="Description" %}
+            <label for="description">Description</label>
+        </div>
+
+        <div class="form-floating mb-3 mx-4">
+            {% render_field form.rarity type="number" class="form-control" id="rarity" placeholder="Rarity" %}
+            <label for="rarity">Rarity</label>
+        </div>
+
+        <div class="form-floating mb-3 mx-4">
+            {% render_field form.lc_path type="text" class="form-control" id="lc_path" placeholder="Path" %}
+            <label for="lc_path">Path</label>
+        </div>
+
+        <div class="form-floating mb-3 mx-4">
+            {% render_field form.base_atk type="number" class="form-control" id="base_atk" placeholder="Base ATK" %}
+            <label for="base_atk">Base ATK</label>
+        </div>
+
+        <div class="form-floating mb-3 mx-4">
+            {% render_field form.base_hp type="number" class="form-control" id="base_hp" placeholder="Base HP" %}
+            <label for="base_hp">Base HP</label>
+        </div>
+
+        <div class="form-floating mx-4">
+            {% render_field form.base_def type="number" class="form-control" id="base_def" placeholder="Base DEF" %}
+            <label for="base_def">Base DEF</label>
+        </div>
+        
+        <input class="btn btn-success my-2 px-3" type="submit" name="submit" value="Add Light Cone"/>
+    </form>
+    <a href="{% url 'main:lightcones' %}">
+        <button class="btn btn-secondary mb-3 px-3">
+            Back
+        </button>
+    </a>
+</div>
 
 {% endblock %}

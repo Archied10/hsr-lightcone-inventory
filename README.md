@@ -24,6 +24,12 @@ Ini merupakan solusi saya dari [Tugas PBP Ganjil 23/24](https://pbp-fasilkom-ui.
   - [Cookies dalam Aplikasi Web](#cookies-dalam-aplikasi-web)
   - [Cookies: Apakah Aman?](#cookies-apakah-aman)
   - [Langkah Pengerjaan IV](#langkah-pengerjaan-iv)
+- [Questions and Answers Tugas 5](#questions-and-answers-tugas-5)
+  - [Element Selector](#element-selector)
+  - [HTML5 Tag](#html5-tag)
+  - [Margin dan Padding](#margin-dan-padding)
+  - [Tailwind dan Bootstrap](#tailwind-dan-bootstrap)
+  - [Langkah Pengerjaan V](#langkah-pengerjaan-v)
 - [Useful resources](#useful-resources)
 - [Author](#author)
 
@@ -31,8 +37,9 @@ Ini merupakan solusi saya dari [Tugas PBP Ganjil 23/24](https://pbp-fasilkom-ui.
 
 ### Screenshots
 
-![](./images/Light-Cone-Inventory.png)
-![](./images/app-screenshot-3.png)
+![](./images/login-page.png)
+![](./images/profile-page.png)
+![](./images/lightcones-page.png)
 
 ### Links
 
@@ -171,6 +178,60 @@ Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-b
 - Pada `models.py`, saya menambahkan kode yang akan menghubungkan satu produk dengan satu user. Pada fungsi `create_item()`, saya menambahkan kode agar suatu item dapat ditandai bahwa item tersebut dimiliki oleh user yang sedang terotorisi. Pada fungsi `show_main()`, saya memfilter item agar hanya item yang dimiliki oleh user yang terotorisasi yang akan ditampilkan dan juga mengubah nama yang akan ditampilkan menjadi username dari user. Terakhir, saya menyimpan perubahan dan melakukan migrasi model.
 - Cookie yang sudah diatur pada fungsi `login_user()`, yaitu berupa last login ditampilkan pada `main.html`.
 - Terakhir, saya menambahkan kolom baru pada tabel di berkas `lightcones.html`. Kolom pertama berisikan button yang berfungsi untuk mengupdate nilai amount item (menambahkan dan mengurangkan) dan kolom kedua berfungsi untuk menghapus item. Saya membuat masing-masing satu fungsi pada `views.py` untuk tiap button, yaitu `increase_amount()`, `decrease_amount()`, dan `delete_item()`. Masing-masing fungsi diimpor ke `urls.py` dan ditambahkan pathnya. Fungsi tersebut berfungsi untuk memodifikasi nilai pada database dan ketika berhasil akan mengembalikan `HttpResponse`.
+
+## Questions and Answers Tugas 5
+
+### Element Selector
+Jelaskan manfaat dari setiap element selector dan kapan waktu yang tepat untuk menggunakannya.
+
+- **#id**. Contohnya adalah `#nama`. Digunakan untuk memilih elemen dengan id yang ditentukan, misalnya `id="nama"`. Waktu yang tepat untuk menggunakannya adalah ketika ingin memilih elemen dengan id tertentu untuk di-*style*.
+- **.class**. Contohnya adalah `.buku`. Digunakan untuk memilih elemen dengan class yang ditentukan, misalnya `class="buku"`. Waktu yang tepat untuk menggunakannya adalah ketika ingin memilih elemen dengan class tertentu untuk di-*style*.
+- **element.class**. Contohnya adalah `div.buku`. Digunakan untuk memilih elemen dengan tag tertentu dan dengan class tertentu, misalnya memilih elemen `<div>` dengan `class="buku"`. Waktu yang tepat untuk menggunakannya adalah ketika ingin memilih elemen dengan tag tertentu dan dengan class tertentu.
+- **\***. Contohnya adalah `*`. Digunakan untuk memilih seluruh elemen. Waktu yang tepat untuk menggunakannya adalah ketika ingin seluruh elemen memiliki *style* yang sama.
+- **element**. Contohnya adalah `div`. Digunakan untuk memilih seluruh elemen dengan tag tertentu, misalnya memilih seluruh tag `<div>`. Waktu yang tepat untuk menggunakannya adalah ketika ingin seluruh elemen dengan tag tertentu mempunyai *style* yang seragam.
+- **element,element,...**. Contohnya adalah `div, p`. Digunakan untuk memilih seluruh elemen dengan beberapa tag tertentu, misalnya elemen dengan tag `<div>` dan tag `<p>`. Waktu yang tepat untuk menggunakannya adalah ketika ingin seluruh elemen dengan beberapa tag tertentu mempunyai *style* yang seragam.
+
+Referensi: [CSS Selectors](https://www.w3schools.com/css/css_selectors.asp)
+
+### HTML5 Tag
+Jelaskan HTML5 Tag yang kamu ketahui.
+
+Terdapat banyak sekali tag pada HTML5. Berikut merupakan sepuluh contoh tag yang diperkenalkan di HTML5.
+- `<article>` digunakan untuk mendefinisikan sebuah konten pada dokumen, seperti blog, majalah, atau koran.
+- `<audio>` digunakan untuk menjalankan berkas audio di HTML.
+- `<footer>` digunakan untuk mendefinisikan footer untuk sebuah section.
+- `<figure>` digunakan untuk menyisipkan konten, seperti foto, diagram, dan lainnya.
+- `<figcaption>` digunakan untuk mendefinisikan caption untuk elemen dengan tag `<figure>`.
+- `<header>` digunakan untuk mendefinisikan header untuk sebuah section.
+- `<main>` digunakan untuk mendefinisikan konten utama pada dokumen.
+- `<nav>` digunakan untuk mendifinisikan link navigasi pada dokumen.
+- `<time>` digunakan untuk mendefinisikan tanggal atau waktu.
+- `<video>` digunakan untuk menjalankan video pada berkas HTML.
+
+Referensi: [HTML 5 Tags](https://www.javatpoint.com/html-5-tags) 
+
+### Margin dan Padding
+Jelaskan perbedaan antara margin dan padding.
+- **Margin** merupakan ruang yang ada di sekitar elemen dan digunakan untuk memindahkan elemen ke atas, bawah, kanan, ataupun kiri. Margin tidak memiliki warna background dan transparan. Tiap sisi dari elemen dapat diubah marginnya. Margin mendorong elemen yang bersebelahan untuk membuat celah. 
+- **Padding** merupakan ruang yang ada di antara elemen dengan konten yang ada di dalam elemen. Padding menentukan bagaimana elemen terlihat. Padding dapat dipengaruhi oleh warna background karena menghapus area sekitar konten. Untuk membuat celah, padding dapat memperbesar ukuran elemen ataupun mengecilkan ukuran elemen.
+- Margin merupakan ruang di luar elemen, sedangkan padding merupakan ruang di dalam elemen. Margin dapat berupa nilai negatif, sedangkan padding tidak. Margin dapat diatur menjadi auto untuk menengahkan elemen secara horizontal, sedangkan padding tidak.
+
+Referensi: [CSS Padding vs Margin](https://www.geeksforgeeks.org/css-padding-vs-margin/)
+
+### Tailwind dan Bootstrap
+Jelaskan perbedaan antara framework CSS Tailwind dan Bootstrap. Kapan sebaiknya kita menggunakan Bootstrap daripada Tailwind, dan sebaliknya?
+- **Tailwind CSS** dikembangkan oleh Adam Wathan. Tailwind CSS adalah framework CSS yang bersifat utility-first dan low-level. Tailwind menawarkan kelas-kelas single-purpose yang dapat digunakan langsung dalam halaman web untuk memberikan *style* pada elemen. Tailwind memungkinkan para pengembang untuk dengan cepat membuat antarmuka pengguna yang disesuaikan.
+- **Bootstrap** adalah framework CSS yang open-source dan gratis untuk membuat aplikasi web responsif dan mobile. Bootstrap adalah framework pengembangan front end yang berfokus pada mobile-first. Bootstrap berisikan template HTML, CSS, dan JavaScript untuk berbagai komponen. Bootstrap dikembangkan oleh Mark Otto dan Jacob Thorton. 
+- Kita dapat menggunakan Tailwind ketika kita menginginkan ukuran file yang optimal dan ketika kita ingin lebih fleksibel dalam merancang layout. Boostrap dapat digunakan ketika ingin bekerja dalam tim karena memberikan desain yang konsisten dan digunakan ketika ingin membuat halaman web dengan cepat karena Bootstrap memiliki banyak komponen yang siap pakai.
+
+Referensi: [Tailwind CSS Vs Bootstrap](https://www.tutorialspoint.com/tailwind-css-vs-bootstrap)
+
+### Langkah Pengerjaan V
+Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+- Hal pertama yang saya lakukan adalah menambahkan Bootstrap ke aplikasi. 
+- Selanjutnya, saya memberi *style* pada halaman login, register, dan tambah item. Saya menggunakan floating label untuk input. Saya menggunakan padding untuk mengatur ukuran button dan margin untuk mengatur jarak antar elemen. Pada halaman register dan tambah item, saya menggunakan widget_tweaks untuk memberikan *style* pada form.
+- Pada halaman daftar item, saya menggunakan card pada bootstrap untuk menampilkan data dengan fleksibel.
+- Terakhir, saya mengubah background-color pada baris terakhir dari tiap item dengan menggunakan `div:last-child{background-color: blue;}`.
 
 ## Useful resources
 
