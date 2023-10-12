@@ -1,7 +1,7 @@
 {% extends 'base.html' %} 
 {% block meta %}
 <style>
-    div:last-child{
+    .card:last-child{
         background-color: blue;
     }
 </style>
@@ -9,46 +9,206 @@
 {% block content %}
 <div class = "w-100 border rounded bg-info text-center">
   <h1>Light Cone Inventory</h1>
-  <h2>You have stored {{ jumlah_item }} Light Cones in this app</h2>
+  <h2 id="jumlah" data-jumlah-item="{{ jumlah_item }}">You have stored {{ jumlah_item }} Light Cones in this app</h2>
   <a href="{% url 'main:create_item' %}">
     <button class="btn btn-success my-2 px-3">
         Add New Light Cone
     </button>
   </a>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Product by AJAX</button>
   <a href="{% url 'main:show_main' %}">
     <button class="btn btn-secondary my-2 px-3">
         Back
     </button>
   </a> <br><br>
 
-    {% for item in items %}
-      <div class="card border-primary mb-3" style="max-width: 24%; display: inline-block; vertical-align:top;">
-        <div class="card-header"><h5 class="card-title">{{ item.name }}</h5></div>
-        <div class="card-body">
-          <h6 class="card-title">{{ item.rarity }} Stars</h6>
-          <h6 class="card-title">The {{ item.lc_path }}</h6>
-          <p class="card-text">{{ item.description }}</p>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Base ATK: {{ item.base_atk }}</li>
-            <li class="list-group-item">Base HP: {{ item.base_hp }}</li>
-            <li class="list-group-item">Base DEF: {{ item.base_def }}</li>
-            <li class="list-group-item">Amount: {{ item.amount }}</li>
-          </ul>
-        </div>
-        <div class="card-footer">
-          <button onclick="window.location.href='/increase_amount/{{ item.id }}/';" class="btn btn-secondary my-2 px-3"> 
-            + 1 
-          </button>
-          <button onclick="window.location.href='/decrease_amount/{{ item.id }}/';" class="btn btn-secondary my-2 px-3"> 
-            - 1 
-          </button>
-          <button onclick="window.location.href='/delete_item/{{ item.id }}/';" class="btn btn-danger my-2 px-3"> 
-            Delete
-          </button>
-        </div>
-      </div>
-    {% endfor %}
+  <div id="item-cards"></div>
   {% load static %}
   <img src="{% static 'Pom-Pom_Sticker_06.webp' %}" alt="Pom Pom Belajar">
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Light Cone</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="form" onsubmit="return false;">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name"></input>
+                </div>
+                <div class="mb-3">
+                    <label for="amount" class="col-form-label">Amount:</label>
+                    <input type="number" class="form-control" id="amount" name="amount"></input>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="col-form-label">Description:</label>
+                    <textarea class="form-control" id="description" name="description"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="rarity" class="col-form-label">Rarity:</label>
+                  <input type="number" class="form-control" id="rarity" name="rarity"></input>
+                </div>
+                <div class="mb-3">
+                  <label for="lc_path" class="col-form-label">Path:</label>
+                  <input type="text" class="form-control" id="lc_path" name="lc_path"></input>
+                </div>
+                <div class="mb-3">
+                  <label for="base_atk" class="col-form-label">Base ATK:</label>
+                  <input type="number" class="form-control" id="base_atk" name="base_atk"></input>
+                </div>
+                <div class="mb-3">
+                  <label for="base_hp" class="col-form-label">Base HP:</label>
+                  <input type="number" class="form-control" id="base_hp" name="base_hp"></input>
+                </div>
+                <div class="mb-3">
+                  <label for="base_def" class="col-form-label">Base DEF:</label>
+                  <input type="number" class="form-control" id="base_def" name="base_def"></input>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Light Cone</button>
+            </div>
+      </div>
+  </div>
+</div>
+
+<script>
+  async function getProducts() {
+        return fetch("{% url 'main:get_product_json' %}").then((res) => res.json())
+  }
+  async function refreshProducts() {
+        document.getElementById("item-cards").innerHTML = ""
+        const products = await getProducts()
+        let htmlString = ``
+        products.forEach((item) => {
+            htmlString += `<div data-model-id="${item.pk}" data-model-amount="${item.fields.amount}" class="card border-primary mb-3" style="max-width: 24%; display: inline-block; vertical-align:top;">
+            <div class="card-header"><h5 class="card-title">${item.fields.name}</h5></div>
+            <div class="card-body">
+              <h6 class="card-title">${item.fields.rarity} Stars</h6>
+              <h6 class="card-title">The ${item.fields.lc_path}</h6>
+              <p class="card-text">${item.fields.description}</p>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Base ATK: ${item.fields.base_atk}</li>
+                <li class="list-group-item">Base HP: ${item.fields.base_hp}</li>
+                <li class="list-group-item">Base DEF: ${item.fields.base_def}</li>
+                <li class="list-group-item amount">Amount: ${item.fields.amount}</li>
+              </ul>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-secondary my-2 px-3 increase-btn"> 
+                + 1 
+              </button>
+              <button class="btn btn-secondary my-2 px-3 decrease-btn"> 
+                - 1 
+              </button>
+              <button class="btn btn-danger my-2 px-3 delete-btn"> 
+                Delete
+              </button>
+            </div>
+          </div>\n` 
+        })
+        
+        document.getElementById("item-cards").innerHTML = htmlString
+  }
+
+  refreshProducts()
+  function addProduct() {
+      fetch("{% url 'main:create_ajax' %}", {
+          method: "POST",
+          body: new FormData(document.querySelector('#form'))
+      }).then(refreshProducts)
+      $('#jumlah').data('jumlah-item', $('#jumlah').data('jumlah-item')+parseInt(document.querySelector('#form').elements["amount"].value));
+      $('#jumlah').text('You have stored ' + $('#jumlah').data('jumlah-item') + ' Light Cones in this app');
+      document.getElementById("form").reset()
+      return false
+  }
+  document.getElementById("button_add").onclick = addProduct
+
+  $(document).ready(function() {
+      $('#item-cards').on('click', '.increase-btn', async function() {
+          var modelId = $(this).closest('.card').data('model-id');
+          var currentAmount = $(this).closest('.card').data('model-amount');
+          var updatedAmount = currentAmount + 1;
+
+          try {
+              var response = await $.ajax({
+                  type: 'GET',
+                  url: '/increase_amount/' + modelId + '/',
+                  data: {
+                      amount: updatedAmount
+                  }
+              });
+              $(this).closest('.card').data('model-amount', updatedAmount);
+              $(this).closest('.card').find('.amount').text('Amount: ' + updatedAmount);
+              $('#jumlah').data('jumlah-item', $('#jumlah').data('jumlah-item')+1);
+              $('#jumlah').text('You have stored ' + $('#jumlah').data('jumlah-item') + ' Light Cones in this app');
+          } catch (error) {
+              alert('An error occurred: ' + error);
+          }
+      });
+  });
+
+  $(document).ready(function() {
+      $('#item-cards').on('click', '.decrease-btn', async function() {
+          var modelId = $(this).closest('.card').data('model-id');
+          var currentAmount = $(this).closest('.card').data('model-amount');
+          var updatedAmount = currentAmount - 1;
+
+          if (updatedAmount > 0) {
+            try {
+                var response = await $.ajax({
+                    type: 'GET',
+                    url: '/decrease_amount/' + modelId + '/',
+                    data: {
+                        amount: updatedAmount
+                    }
+                });
+                $(this).closest('.card').data('model-amount', updatedAmount);
+                $(this).closest('.card').find('.amount').text('Amount: ' + updatedAmount);
+                $('#jumlah').data('jumlah-item', $('#jumlah').data('jumlah-item')-1);
+                $('#jumlah').text('You have stored ' + $('#jumlah').data('jumlah-item') + ' Light Cones in this app');
+            } catch (error) {
+                alert('An error occurred: ' + error);
+            }
+          } else {
+            alert('Failed to decrease the amount.\nThe amount is already at its minimum value.');
+          }
+          
+      });
+  });
+
+  $(document).ready(function() {
+      $('#item-cards').on('click', '.delete-btn', async function() {
+          var modelId = $(this).closest('.card').data('model-id');
+          var currentAmount = $(this).closest('.card').data('model-amount');
+
+          if (confirm('Are you sure you want to delete this item?')) {
+              try {
+                  var response = await $.ajax({
+                      type: 'DELETE',
+                      url: '/delete_item/' + modelId + '/',
+                  });
+
+                  if (response.message === 'Item deleted successfully') {
+                      $(this).closest('.card').remove();
+                      $('#jumlah').data('jumlah-item', $('#jumlah').data('jumlah-item')-currentAmount);
+                      $('#jumlah').text('You have stored ' + $('#jumlah').data('jumlah-item') + ' Light Cones in this app');
+                      alert(response.message);
+                  } else {
+                      alert('An error occurred: ' + response.message);
+                  }
+              } catch (error) {
+                  alert('An error occurred: ' + error);
+              }
+          }
+      });
+  });
+</script>
 {% endblock content %}

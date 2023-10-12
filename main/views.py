@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from main.forms import ItemForm
 from django.urls import reverse
 from main.models import Item
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.core import serializers
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
@@ -12,6 +12,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import datetime
 from django.db.models import F
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -20,7 +22,7 @@ def show_main(request):
         'name': request.user.username,
         'npm': 2206826476,
         'kelas': 'PBP-A',
-        'last_login': request.COOKIES['last_login'],
+        'last_login': request.COOKIES.get('last_login'),
     }
     return render(request, "main.html", context)
 
@@ -101,13 +103,70 @@ def logout_user(request):
     return response
 
 def increase_amount(request, item_id):
-    Item.objects.filter(user=request.user).filter(pk=item_id).update(amount=F('amount')+1)
-    return HttpResponseRedirect(reverse('main:lightcones'))
+    if request.method == 'GET':
+        try:
+            item = Item.objects.filter(user=request.user).get(pk=item_id)
+        except Item.DoesNotExist:
+            return JsonResponse({'message': 'Item not found'}, status=404)
+
+        updated_amount = request.GET.get('amount', None)
+        if updated_amount is not None:
+            item.amount = updated_amount
+            item.save()
+            return JsonResponse({'message': 'The amount has been increased by 1'})
+        else:
+            return JsonResponse({'message': 'No data provided'}, status=400)
+    else:
+        return JsonResponse({'message': 'Invalid request method'}, status=405)
 
 def decrease_amount(request, item_id):
-    Item.objects.filter(user=request.user).filter(pk=item_id).update(amount=F('amount')-1)
-    return HttpResponseRedirect(reverse('main:lightcones'))
+    if request.method == 'GET':
+        try:
+            item = Item.objects.filter(user=request.user).get(pk=item_id)
+        except Item.DoesNotExist:
+            return JsonResponse({'message': 'Item not found'}, status=404)
 
+        updated_amount = request.GET.get('amount', None)
+        if updated_amount is not None:
+            item.amount = updated_amount
+            item.save()
+            return JsonResponse({'message': 'The amount has been decreased by 1'})
+        else:
+            return JsonResponse({'message': 'No data provided'}, status=400)
+    else:
+        return JsonResponse({'message': 'Invalid request method'}, status=405)
+
+@csrf_exempt
 def delete_item(request, item_id):
-    Item.objects.filter(user=request.user).filter(pk=item_id).delete()
-    return HttpResponseRedirect(reverse('main:lightcones'))
+    if request.method == 'DELETE':
+        try:
+            item = Item.objects.filter(user=request.user).get(pk=item_id)
+            item.delete()
+            return JsonResponse({'message': 'Item deleted successfully'})
+        except Item.DoesNotExist:
+            return JsonResponse({'message': 'Item not found'}, status=404)
+
+def get_product_json(request):
+    product_item = Item.objects.filter(user=request.user).order_by('-rarity', 'name')
+    return HttpResponse(serializers.serialize('json', product_item))
+
+@csrf_exempt
+def create_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get("name")
+        amount = request.POST.get("amount")
+        description = request.POST.get("description")
+        rarity = request.POST.get("rarity")
+        lc_path = request.POST.get("lc_path")
+        base_atk = request.POST.get("base_atk")
+        base_hp = request.POST.get("base_hp")
+        base_def = request.POST.get("base_def")
+        user = request.user
+
+        new_product = Item(name=name, amount=amount, description=description, rarity=rarity, 
+                           lc_path=lc_path, base_atk=base_atk, base_hp=base_hp, base_def=base_def, user=user)
+        new_product.save()
+
+        return HttpResponse(b"CREATED", status=201)
+
+    return HttpResponseNotFound()
