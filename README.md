@@ -30,6 +30,12 @@ Ini merupakan solusi saya dari [Tugas PBP Ganjil 23/24](https://pbp-fasilkom-ui.
   - [Margin dan Padding](#margin-dan-padding)
   - [Tailwind dan Bootstrap](#tailwind-dan-bootstrap)
   - [Langkah Pengerjaan V](#langkah-pengerjaan-v)
+- [Questions and Answers Tugas 6](#questions-and-answers-tugas-6)
+  - [Asynchronous dan Synchronous Programming](#asynchronous-dan-synchronous-programming)
+  - [Event-driven Programming](#event-driven-programming)
+  - [Asynchronous Programming pada AJAX](#asynchronous-programming-pada-ajax)
+  - [Fetch API dan Library jQuery](#fetch-api-dan-library-jquery)
+  - [Langkah Pengerjaan VI](#langkah-pengerjaan-vi)
 - [Useful resources](#useful-resources)
 - [Author](#author)
 
@@ -44,7 +50,8 @@ Ini merupakan solusi saya dari [Tugas PBP Ganjil 23/24](https://pbp-fasilkom-ui.
 ### Links
 
 - GitHub URL: [GitHub](https://github.com/Archied10/hsr-lightcone-inventory)
-- Adaptable App URL: [App](https://lightcone-archied10.adaptable.app/) *(No longer adaptable)*
+- Adaptable App URL: [Adaptable](https://lightcone-archied10.adaptable.app/) *(No longer adaptable)*
+- PBP Fasilkom UI App URL: [App](http://mika-ahmad-tugas.pbp.cs.ui.ac.id/)
 
 ## Questions and Answers Tugas 2
 
@@ -232,6 +239,43 @@ Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-b
 - Selanjutnya, saya memberi *style* pada halaman login, register, dan tambah item. Saya menggunakan floating label untuk input. Saya menggunakan padding untuk mengatur ukuran button dan margin untuk mengatur jarak antar elemen. Pada halaman register dan tambah item, saya menggunakan widget_tweaks untuk memberikan *style* pada form.
 - Pada halaman daftar item, saya menggunakan card pada bootstrap untuk menampilkan data dengan fleksibel.
 - Terakhir, saya mengubah background-color pada baris terakhir dari tiap item dengan menggunakan `div:last-child{background-color: blue;}`.
+
+## Questions and Answers Tugas 6
+
+### Asynchronous dan Synchronous Programming
+Jelaskan perbedaan antara asynchronous programming dengan synchronous programming.
+- Synchronous programming adalah proses jalannya program secara sequential, yang berarti harus menunggu antrean. Pada synchronous programming, tugas dilakukan satu per satu dan hanya ketika satu selesai, yang berikutnya tidak diblokir. Synchronous programming paling baik digunakan dalam sistem reaktif dan dapat digunakan pada semua bahasa pemrograman. Lebih mudah ditulis dan tidak memerlukan pelacakan dan pengukuran alur proses (seperti async). Cocok untuk tugas sederhana dengan penggunaan sumber daya minimal.
+- Asynchronous programming adalah proses jalannya program bisa dilakukan secara bersamaan tanpa harus menunggu proses antrian. Pada asynchronous programming, arsitekturnya non-blocking, yang berarti tidak memblokir eksekusi lebih lanjut saat satu atau lebih operasi sedang berlangsung. Beberapa operasi terkait dapat berjalan secara bersamaan tanpa menunggu tugas lain selesai. Umumnya digunakan untuk meningkatkan pengalaman pengguna dengan mengurangi waktu *lag*. Lebih kompleks dan dapat mempersulit kode.
+
+Referensi: [Asynchronous vs. Synchronous Programming: Key Similarities and Differences](https://www.mendix.com/blog/asynchronous-vs-synchronous-programming/)
+
+### Event-driven Programming
+Dalam penerapan JavaScript dan AJAX, terdapat penerapan paradigma event-driven programming. Jelaskan maksud dari paradigma tersebut dan sebutkan salah satu contoh penerapannya pada tugas ini.
+- Paradigma event-driven programming adalah suatu teknik pemrograman di mana alur program ditentukan oleh suatu event atau peristiwa tertentu. Dalam penerapan JavaScript dan AJAX, paradigma ini memungkinkan pengembang untuk membuat alur program berdasarkan event yang sedang terjadi di program. Contohnya, pada JavaScript, event seperti klik tombol atau scroll halaman web dapat di-handle menggunakan event listeners, yang memungkinkan fungsi kustom dijalankan ketika event terjadi. Paradigma ini sangat berguna dalam membuat aplikasi web yang interaktif dan responsif terhadap input pengguna. Contohnya pada tugas ini adalah terdapat pada button `+1` dan `-1` di mana ketika diklik, maka amount item akan berubah dan tampilan web juga berubah.
+
+Referensi: [Belajar Javascript: Memahami Event di Javascript](https://www.petanikode.com/javascript-event/)
+
+### Asynchronous Programming pada AJAX
+Jelaskan penerapan asynchronous programming pada AJAX.
+- Asynchronous programming pada AJAX memungkinkan aplikasi web untuk bekerja secara tidak langsung, memproses setiap request yang datang ke server di sisi background sehingga halaman dapat tetap diakses oleh pengunjung website. Dengan menggunakan teknik asynchronous ini, aplikasi web dapat mengambil data dari server di sisi background, mengupdate tampilan web tanpa harus reload browser, dan mengirim data ke server di sisi background.
+
+Referensi: [Belajar Javascript: Apa itu AJAX? dan Bagaimana Cara Menggunakannya?](https://www.petanikode.com/javascript-ajax/)
+
+### Fetch API dan Library jQuery
+Pada PBP kali ini, penerapan AJAX dilakukan dengan menggunakan Fetch API daripada library jQuery. Bandingkanlah kedua teknologi tersebut dan tuliskan pendapat kamu teknologi manakah yang lebih baik untuk digunakan.
+- Fetch API merupakan API yang relatif baru dan bawaan dari JavaScript, mengembalikan Promise yang akan menyelesaikan objek Response yang mewakili respons permintaan, tidak menolak Promise pada status error HTTP, dan merupakan cara yang bersih, elegan, dan sederhana untuk melakukan permintaan HTTP.
+- jQuery merupakan sebuah library JavaScript yang menyederhanakan fungsi-fungsi JavaScript, menyediakan serangkaian metode untuk melakukan permintaan HTTP, termasuk `$.get()`, `$.post()`, dan `$.ajax()`, mengembalikan objek seperti Promise yang dapat digunakan untuk menangani respons, dan menolak Promise pada status error HTTP.
+- Dalam hal teknologi mana yang lebih baik digunakan, tergantung pada kasus penggunaan tertentu dan preferensi pribadi. Fetch API adalah teknologi yang lebih baru bawaan dari JavaScript dan menyediakan sintaks yang lebih sederhana, tetapi tidak menolak pada error HTTP. jQuery adalah library populer yang telah ada sejak lama dan memiliki berbagai metode, tetapi mungkin tidak tersedia dalam proyek yang menggunakan framework JavaScript yang lebih baru. Pilihan antara keduanya akan tergantung pada proyek apa yang ingin dibuat.
+
+Referensi: [Why would you use a fetch get request instead of a jquery Get Request?](https://forum.freecodecamp.org/t/why-would-you-use-a-fetch-get-request-instead-of-a-jquery-get-request/185051/5)
+
+### Langkah Pengerjaan VI
+Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+- Pertama, saya membuat fungsi `get_product_json` di `views.py` untuk mengembalikan seluruh item pada model dalam bentuk json. Kemudian, pada kode JavaScript saya menambahkan fungsi `refreshProducts()` untuk menampilkan seluruh cards.
+- Selanjutnya, saya membuat tombol yang ketika diklik akan menampilkan modal untuk menambahkan item pada inventori menggunakan AJAX POST. Ketika tombol `Add Light Cone` diklik, card baru akan ditambahkan secara otomatis tanpa harus reload browser dan total jumlah item juga akan bertambah.
+- Selanjutnya, saya mengubah tombol `+1` dan `-1` menjadi menggunakan AJAX GET dan tombol delete menjadi menggunakan AJAX DELETE sehingga ketika diklik tombolnya, card item diupdate pada tampilan web dan total jumlah item akan berubah tanpa harus reload browser.
+- Selanjutnya, saya menjalankan perintah `python manage.py collectstatic` untuk mengumpulkan seluruh berkas static dalam satu direktori.
+- Terakhir, saya melakukan deployment ke PaaS PBP Fasilkom UI.
 
 ## Useful resources
 
